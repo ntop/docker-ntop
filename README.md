@@ -35,3 +35,21 @@ docker build -t ntopng -f Dockerfile.ntopng .
 docker run --net=host -t -p 3000:3000 ntopng -i eth0
 ```
 
+# n2disk
+
+## Install and Run
+
+```
+docker build -t n2disk -f Dockerfile.n2disk .
+docker run --net=host -t n2disk -i eth0 -o /tmp
+```
+
+# nscrub
+
+## Install and Run
+
+```
+docker build -t nscrub -f Dockerfile.nscrub .
+docker run --net=host -t -p 8880:8880 nscrub -i eth1 -o eth2
+```
+
