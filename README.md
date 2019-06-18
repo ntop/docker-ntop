@@ -44,6 +44,15 @@ docker build -t nprobe -f Dockerfile.nprobe .
 docker run -it --net=host nprobe -i eth0
 ```
 
+# nProbe Agent
+
+## Install and Run
+
+```
+docker build -t agent -f Dockerfile.agent .
+docker run -it --network=host -v /etc/nprobe-agent.license:/etc/nprobe-agent.license:ro -v /lib/modules:/lib/modules:ro -v /usr/src:/usr/src:ro -v /etc/localtime:/etc/localtime:ro -v /sys/kernel/debug:/sys/kernel/debug -v /var/run/docker.sock:/var/run/docker.sock -v /snap/bin/microk8s.ctr:/snap/bin/microk8s.ctr agent
+```
+
 # n2disk
 
 ## Install and Run
