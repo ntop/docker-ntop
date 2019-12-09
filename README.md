@@ -14,7 +14,7 @@ read the instructions in the [PF_RING User's Guide](http://www.ntop.org/guides/p
 
 ```
 docker build -t pfring -f Dockerfile.pfring .
-docker run --net=host pfring pfcount -i eth0
+docker run --net=host pfring pfcount -i eno1
 ```
 
 If you want to use a ZC interface, you need to access the license file from the container, 
@@ -32,7 +32,7 @@ For additional info please read the [PF_RING User's Guide](http://www.ntop.org/g
 
 ```
 docker build -t ntopng -f Dockerfile.ntopng .
-docker run -it --net=host -p 3000:3000 ntopng -i eth0
+docker run -it --net=host ntopng -i eno1
 ```
 
 # nProbe
@@ -41,7 +41,7 @@ docker run -it --net=host -p 3000:3000 ntopng -i eth0
 
 ```
 docker build -t nprobe -f Dockerfile.nprobe .
-docker run -it --net=host nprobe -i eth0
+docker run -it --net=host nprobe -i eno1
 ```
 
 # nProbe Agent
@@ -59,7 +59,7 @@ docker run -it --network=host -v /etc/nprobe-agent.license:/etc/nprobe-agent.lic
 
 ```
 docker build -t n2disk -f Dockerfile.n2disk .
-docker run -it --net=host n2disk -i eth0 -o /tmp
+docker run -it --net=host n2disk -i eno1 -o /tmp
 ```
 
 # nscrub
@@ -68,13 +68,13 @@ docker run -it --net=host n2disk -i eth0 -o /tmp
 
 ```
 docker build -t nscrub -f Dockerfile.nscrub .
-docker run -it --net=host -p 8880:8880 nscrub -i eth1 -o eth2
+docker run -it --net=host nscrub -i eth1 -o eth2
 ```
 
 Note: you can configure the application license sharing the license file with the container, 
 you can do this using the -v|--volume option. This applies to all the applications.
 
 ```
-docker run -it --net=host -p 8880:8880 -v $(pwd)/nscrub.license:/etc/nscrub.license nscrub -i eth1 -o eth2
+docker run -it --net=host -v $(pwd)/nscrub.license:/etc/nscrub.license nscrub -i eth1 -o eth2
 ```
 
