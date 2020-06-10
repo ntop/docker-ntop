@@ -44,6 +44,15 @@ docker build -t nprobe -f Dockerfile.nprobe .
 docker run -it --net=host nprobe -i eno1
 ```
 
+# nProbe Cento
+
+## Install and Run
+
+```
+docker build -t cento -f Dockerfile.cento .
+docker run -it --net=host cento -i eno1
+```
+
 # nProbe Agent
 
 ## Install and Run
