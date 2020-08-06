@@ -1,0 +1,17 @@
+FROM debian:buster
+
+RUN apt-get update && \
+    apt-get -y -q install wget lsb-release gnupg && \
+        wget -q http://packages.ntop.org/RaspberryPI/apt-ntop_1.0.190416-469_all.deb && \
+	    dpkg -i apt-ntop_1.0.190416-469_all.deb && \
+	        apt-get clean all
+
+RUN apt-get update && \
+    apt-get -y install ntopng
+
+RUN echo '#!/bin/bash\n/etc/init.d/redis-server start\nntopng "$@"' > /run.sh && \
+    chmod +x /run.sh
+
+EXPOSE 3000
+
+ENTRYPOINT ["/run.sh"]
