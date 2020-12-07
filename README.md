@@ -73,8 +73,10 @@ docker run -it --network=host -v /etc/nprobe-agent.license:/etc/nprobe-agent.lic
 
 ```
 docker build -t n2disk -f Dockerfile.n2disk .
-docker run -it --net=host n2disk -i eno1 -o /tmp
+docker run -it --cap-add IPC_LOCK --net=host n2disk -i eno1 -o /tmp
 ```
+
+Note: IPC_LOCK is required to use the Direct IO support in n2disk, which required mlock.
 
 # nscrub
 
