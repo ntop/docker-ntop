@@ -1,0 +1,19 @@
+FROM debian:buster
+
+RUN apt-get update && \
+    apt-get -y -q install software-properties-common wget lsb-release gnupg redis-server && \
+    add-apt-repository contrib && \
+    wget -q https://packages.ntop.org/apt-stable/buster/all/apt-ntop-stable.deb && \
+    apt install ./apt-ntop-stable.deb
+
+RUN apt-get clean all && \
+    apt-get update && \
+    apt-get -y install ntopng-data=3.8+dfsg1-2.1 -V && \
+    apt-get -y install ntopng
+
+RUN echo '#!/bin/bash\n/etc/init.d/redis-server start\nntopng "$@"' > /run.sh && \
+    chmod +x /run.sh
+
+EXPOSE 3000
+
+ENTRYPOINT ["/run.sh"]
