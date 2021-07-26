@@ -122,7 +122,7 @@ install_conf () {
             exit 126;
         fi
     else
-        echo -e "[${RED_X}] GeoIP.conf config file ${RED}detected$,{NC} will leave it as it is.";
+        echo -e "[${RED_X}] GeoIP.conf config file ${RED}detected$,${NC} will leave it as it is.";
     fi
 }
 
