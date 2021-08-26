@@ -8,7 +8,7 @@ RUN apt-get update && \
     apt-get clean all
 
 RUN apt-get update && \
-    apt-get -y install ntopng 
+    apt-get -y install ntopng ntopng-data
 
 RUN echo '#!/bin/bash\n/etc/init.d/redis-server start\nntopng "$@"' > /run.sh && \
     chmod +x /run.sh
