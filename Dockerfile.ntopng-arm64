@@ -1,17 +1,17 @@
-FROM debian:buster
+FROM debian:buster-slim
 
 # Main dependencies and ntop.org apt package repo installation
-RUN apt update && \
-    apt -y -q install software-properties-common wget lsb-release gnupg && \
+RUN apt-get update && \
+    apt-get -y -q install software-properties-common wget lsb-release gnupg libelf1 && \
     wget -q http://packages.ntop.org/RaspberryPI/apt-ntop_1.0.190416-469_all.deb && \
-    apt -y -q install ./apt-ntop_1.0.190416-469_all.deb
+    apt-get -y -q install ./apt-ntop_1.0.190416-469_all.deb
 
 # ntopng, some of its dependencies and libcap2 / libzstd1 need to be armhf
 # architecture, because latest ntopng (4.3) is not available in arm64
-RUN apt clean all && \
+RUN apt-get clean all && \
     dpkg --add-architecture armhf && \
-    apt update && \
-    apt -y -q install ntopng:armhf libcap2:armhf libzstd1:armhf
+    apt-get update && \
+    apt-get -y -q install ntopng:armhf libcap2:armhf libzstd1:armhf
     
 
 RUN echo '#!/bin/bash\n/etc/init.d/redis-server start\nntopng "$@"' > /run.sh && \
