@@ -238,7 +238,7 @@ if [ $RESULT = "0" ]; then
     echo -e "[${GREEN_TICK}] GeoIP database(s) downloaded / updated.";
     # Install cron job to run update database automatically
     echo "[i] Creating geoipupdate cron job - run update twice weekly (Mon, Thu) at 22:55";
-    echo "55 22 * * 1,4 /usr/local/bin/geoipupdate" > /etc/cron.d/root;
+    echo "55 22 * * 1,4 root /usr/local/bin/geoipupdate" > /etc/cron.d/root;
     echo -e "[${GREEN_TICK}] Finished.";
 else
     echo -e "[${RED_X}] GeoIP database(s) ${RED}could not${NC} be downloaded. Check config.";

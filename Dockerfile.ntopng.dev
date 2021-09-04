@@ -1,14 +1,14 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 MAINTAINER ntop.org
 
 RUN apt-get update && \
-    apt-get -y -q install wget lsb-release gnupg && \
-    wget -q http://apt.ntop.org/18.04/all/apt-ntop.deb && \
+    apt-get -y -q install wget lsb-release gnupg libelf1 && \
+    wget -q http://apt.ntop.org/20.04/all/apt-ntop.deb && \
     dpkg -i apt-ntop.deb && \
     apt-get clean all
 
 RUN apt-get update && \
-    apt-get -y install ntopng 
+    apt-get -y install ntopng ntopng-data
 
 RUN echo '#!/bin/bash\n/etc/init.d/redis-server start\nntopng "$@"' > /run.sh && \
     chmod +x /run.sh
