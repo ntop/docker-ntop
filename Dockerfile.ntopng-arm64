@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 # Main dependencies and ntop.org apt package repo installation
 RUN apt-get update && \
