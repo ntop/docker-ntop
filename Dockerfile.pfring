@@ -10,7 +10,7 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get -y install pfring
 
-RUN echo '#!/bin/bash\nset -e\nexec "$@ $NTOP_CONFIG"' > /run.sh && \
+RUN echo '#!/bin/bash\nset -e\nexec "$@" "$NTOP_CONFIG"' > /run.sh && \
     chmod +x /run.sh
 
 ENTRYPOINT ["/run.sh"]
