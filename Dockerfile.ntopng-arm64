@@ -14,7 +14,7 @@ RUN apt-get clean all && \
     apt-get -y -q install ntopng:armhf libcap2:armhf libzstd1:armhf
     
 
-RUN echo '#!/bin/bash\n/etc/init.d/redis-server start\nntopng "$@"' > /run.sh && \
+RUN echo '#!/bin/bash\n/etc/init.d/redis-server start\nntopng "$@" "$NTOP_CONFIG"' > /run.sh && \
     chmod +x /run.sh
 
 EXPOSE 3000

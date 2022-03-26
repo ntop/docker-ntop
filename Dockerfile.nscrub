@@ -10,7 +10,7 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get -y install nscrub 
 
-RUN echo '#!/bin/bash\nnscrub "$@"' > /run.sh && \
+RUN echo '#!/bin/bash\nnscrub "$@" "$NTOP_CONFIG"' > /run.sh && \
     chmod +x /run.sh
 
 EXPOSE 8880

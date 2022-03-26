@@ -10,7 +10,7 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get -y install n2disk 
 
-RUN echo '#!/bin/bash\nn2disk "$@"' > /run.sh && \
+RUN echo '#!/bin/bash\nn2disk "$@" "$NTOP_CONFIG"' > /run.sh && \
     chmod +x /run.sh
 
 ENTRYPOINT ["/run.sh"]
