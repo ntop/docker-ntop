@@ -14,7 +14,7 @@ RUN apt-get update && \
     echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
     apt-get -y install ntopng ntopng-data
 
-RUN echo '#!/bin/bash\n/etc/init.d/redis-server start\nntopng "$@" "$NTOP_CONFIG"' > /run.sh && \
+RUN echo '#!/bin/bash\n/etc/init.d/redis-server start\nntopng "$@" $NTOP_CONFIG' > /run.sh && \
     chmod +x /run.sh
 
 EXPOSE 3000
