@@ -10,7 +10,7 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get -y install nprobe
 
-RUN echo '#!/bin/bash\nnprobe "$@"' > /run.sh && \
+RUN echo '#!/bin/bash\nnprobe "$@" $NTOP_CONFIG' > /run.sh && \
     chmod +x /run.sh
 
 ENTRYPOINT ["/run.sh"]
