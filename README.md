@@ -9,10 +9,6 @@ applications, the PF_RING kernel module and drivers need to be loaded on the hos
 read the instructions in the [PF_RING User's Guide](http://www.ntop.org/guides/pf_ring/get_started/index.html)
 and [Using PF_RING with Docker](https://www.ntop.org/guides/pf_ring/containers/docker.html)
 
-## Troubleshooting
-
-To troubleshoot issued
-
 # PF_RING Tools
 
 ## Install and Run
@@ -49,6 +45,14 @@ docker build -t nprobe -f Dockerfile.nprobe .
 docker run -it --net=host nprobe -i eno1
 ```
 
+# nTap
+
+## Install and Run
+
+```bash
+docker build -t nprobe -f Dockerfile.ntap.dev .
+docker run -it --net=host ntap -i eth0 -c <ntap_collector_ip>:1234 -k my_pwd
+```
 # nProbe Cento
 
 ## Install and Run
@@ -56,15 +60,6 @@ docker run -it --net=host nprobe -i eno1
 ```bash
 docker build -t cento -f Dockerfile.cento .
 docker run -it --net=host cento -i eno1
-```
-
-# nProbe Agent
-
-## Install and Run
-
-```bash
-docker build -t agent -f Dockerfile.agent .
-docker run -it --network=host -v /etc/nprobe-agent.license:/etc/nprobe-agent.license:ro -v /lib/modules:/lib/modules:ro -v /usr/src:/usr/src:ro -v /etc/localtime:/etc/localtime:ro -v /sys/kernel/debug:/sys/kernel/debug -v /var/run/docker.sock:/var/run/docker.sock -v /snap/bin/microk8s.ctr:/snap/bin/microk8s.ctr agent
 ```
 
 # n2disk
@@ -78,7 +73,7 @@ docker run -it --cap-add IPC_LOCK --net=host n2disk -i eno1 -o /tmp
 
 Note: IPC_LOCK is required to use the Direct IO support in n2disk, which required mlock.
 
-# nscrub
+# nScrub
 
 ## Install and Run
 
