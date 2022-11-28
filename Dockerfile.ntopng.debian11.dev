@@ -1,0 +1,28 @@
+FROM debian:bullseye
+MAINTAINER ntop.org
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update && \
+    apt-get -y -q install wget lsb-release gnupg libelf1 && \
+    wget -q https://packages.ntop.org/apt/bullseye/all/apt-ntop.deb && \
+    apt install ./apt-ntop.deb && \
+    apt-get clean all
+
+RUN apt-get update && \
+    apt-get -y -q install apt-transport-https ca-certificates dirmngr && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 8919F6BD2B48D754 && \
+    echo "deb https://packages.clickhouse.com/deb stable main" | tee /etc/apt/sources.list.d/clickhouse.list && \
+    apt-get update && \
+    apt-get -y -q install clickhouse-client
+
+RUN apt-get update && \
+    echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
+    apt-get -y install ntopng ntopng-data
+
+RUN echo '#!/bin/bash\n/etc/init.d/redis-server start\nntopng "$@" $NTOP_CONFIG' > /run.sh && \
+    chmod +x /run.sh
+
+EXPOSE 3000
+
+ENTRYPOINT ["/run.sh"]
