@@ -1,21 +1,25 @@
 FROM debian:bullseye-slim
 
-# Main dependencies and ntop.org apt package repo installation
-RUN apt-get update && \
-    apt-get -y -q install software-properties-common wget lsb-release gnupg libelf1 && \
-    wget -q http://packages.ntop.org/RaspberryPI/apt-ntop_1.0.190416-469_all.deb && \
-    apt-get -y -q install ./apt-ntop_1.0.190416-469_all.deb
+RUN apt-get update \
+	&& apt-get -y -q install \
+		software-properties-common \
+		wget \
+		lsb-release \
+		gnupg \
+		libelf1 \
+	&& wget -q http://packages.ntop.org/RaspberryPI/apt-ntop.deb \
+	&& apt-get -y -q install ./apt-ntop.deb \
+	&& rm ./apt-ntop.deb \
+	&& apt-get update \
+	&& apt-get -y -q install \
+		ntopng \
+		libcap2 \
+		libzstd1 \
+	&& apt-get clean all \
+	&& rm -rf /var/lib/apt/lists/*
 
-# ntopng, some of its dependencies and libcap2 / libzstd1 need to be armhf
-# architecture, because latest ntopng (4.3) is not available in arm64
-RUN apt-get clean all && \
-    dpkg --add-architecture armhf && \
-    apt-get update && \
-    apt-get -y -q install ntopng:armhf libcap2:armhf libzstd1:armhf
-    
-
-RUN echo '#!/bin/bash\n/etc/init.d/redis-server start\nntopng "$@" $NTOP_CONFIG' > /run.sh && \
-    chmod +x /run.sh
+RUN echo '#!/bin/bash\n/etc/init.d/redis-server start\nntopng "$@" $NTOP_CONFIG' > /run.sh \
+	&& chmod +x /run.sh
 
 EXPOSE 3000
 
