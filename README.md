@@ -2,6 +2,9 @@
 
 This repository contains configuration files used to generate Docker images registered on [Dockerhub](https://hub.docker.com/u/ntop).
 
+Ntop license generation and verification uses the names and number of all locally attached network interfaces. If the license used within the Docker is the same as the one used on the host OS, the containers must [use host networking](https://docs.docker.com/network/host/). For docker-compose, see the [Compose file reference](https://docs.docker.com/compose/compose-file/compose-file-v3/#network_mode).
+
+
 ## Prerequisites
 
 In order to use the PF_RING tools or take advantage of the PF_RING acceleration when using the ntop
@@ -34,6 +37,21 @@ For additional info please read the [PF_RING User's Guide](http://www.ntop.org/g
 ```bash
 docker build -t ntopng -f Dockerfile.ntopng .
 docker run -it --net=host ntopng -i eno1
+```
+
+### Docker Compose
+Example `compose.yml` file:
+```
+version: "3.9"
+services:
+  ntopng:
+    image: ntop/ntopng:latest
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /etc/ntopng.license:/etc/ntopng.license
+    command: ['--interface', 'tcp://*:5556c']
+    command: ['--interface', 'eth0']
 ```
 
 # nProbe
