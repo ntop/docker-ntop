@@ -2,15 +2,16 @@
 
 This repository contains configuration files used to generate Docker images registered on [Dockerhub](https://hub.docker.com/u/ntop).
 
-Ntop license generation and verification uses the names and number of all locally attached network interfaces. If the license used within the Docker is the same as the one used on the host OS, the containers must [use host networking](https://docs.docker.com/network/host/). For docker-compose, see the [Compose file reference](https://docs.docker.com/compose/compose-file/compose-file-v3/#network_mode).
-
-
 ## Prerequisites
 
 In order to use the PF_RING tools or take advantage of the PF_RING acceleration when using the ntop
 applications, the PF_RING kernel module and drivers need to be loaded on the host system. Please
 read the instructions in the [PF_RING User's Guide](http://www.ntop.org/guides/pf_ring/get_started/index.html)
 and [Using PF_RING with Docker](https://www.ntop.org/guides/pf_ring/containers/docker.html)
+
+## License Note
+
+Commercial ntop tools require a license which is based on a system identifier which is computed on locally attached network interfaces and other hardware components. If you want to use within all the Docker containers the same license generated for the host OS, the containers must use [host networking](https://docs.docker.com/network/host/). For docker-compose, see the [Compose file reference](https://docs.docker.com/compose/compose-file/compose-file-v3/#network_mode).
 
 # PF_RING Tools
 
