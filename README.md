@@ -13,6 +13,45 @@ and [Using PF_RING with Docker](https://www.ntop.org/guides/pf_ring/containers/d
 
 Commercial ntop tools require a license which is based on a system identifier which is computed on locally attached network interfaces and other hardware components. If you want to use within all the Docker containers the same license generated for the host OS, the containers must use [host networking](https://docs.docker.com/network/host/). For docker-compose, see the [Compose file reference](https://docs.docker.com/compose/compose-file/compose-file-v3/#network_mode).
 
+# Docker Compose
+The following is an example `compose.yml` file to create containers for nTopNG, an nProbe collector, and a ClickHouse server for [historic flows](https://www.ntop.org/guides/ntopng/clickhouse.html) (included with Enterprise L or better).  You can avoid having to use host networking with all containers by generating a speficic license file for each commercial ntop tool.
+Example `compose.yml` file:
+```
+version: "3.9"
+services:
+  nprobe_collector:
+    image: ntop/nprobe:stable
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /etc/nprobe.license:/etc/nprobe.license:ro
+    command: ['nprobe', '--zmq', '"tcp://ntopng:5556"', '--interface', 'none', '-n', 'none', '--collector-port', '2055', '-T', '"@NTOPNG@"', '--collector-passthrough']
+
+  ntopng:
+    image: ntop/ntopng:latest
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /etc/ntopng.license:/etc/ntopng.license:ro
+    command: ['--disable-login', '--interface', 'tcp://*:5556c', '-F', 'clickhouse'] # , '--insecure']
+    depends_on:
+      - clickhouse
+      - nprobe_collector
+      
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    network_mode: "host"
+    restart: always
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+      - clickhouse_logs:/var/log/clickhouse-server/
+      
+volumes:
+  clickhouse_data:
+  clickhouse_logs:
+
+```
+
 # PF_RING Tools
 
 ## Install and Run
@@ -38,21 +77,6 @@ For additional info please read the [PF_RING User's Guide](http://www.ntop.org/g
 ```bash
 docker build -t ntopng -f Dockerfile.ntopng .
 docker run -it --net=host ntopng -i eno1
-```
-
-### Docker Compose
-Example `compose.yml` file:
-```
-version: "3.9"
-services:
-  ntopng:
-    image: ntop/ntopng:latest
-    restart: always
-    network_mode: "host"
-    volumes:
-      - /etc/ntopng.license:/etc/ntopng.license
-    command: ['--interface', 'tcp://*:5556c']
-    command: ['--interface', 'eth0']
 ```
 
 # nProbe
