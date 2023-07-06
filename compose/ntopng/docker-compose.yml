@@ -1,0 +1,32 @@
+version: '3'
+services:
+  ntopng:
+    image: ntop/ntopng:stable
+    hostname: ntop
+    container_name: ntop
+    restart: always
+    network_mode: host
+    # Port mapping (disable network_mode: host)
+    #ports:
+    #  - 3000:3000
+    volumes:
+      - /etc/ntopng.license:/etc/ntopng.license:ro
+      - ntopng_redis:/var/lib/redis
+    command: [ '-i', 'tcp://*:5556c', '-F', 'clickhouse', '--disable-login' ]
+    depends_on:
+      - clickhouse
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    hostname: clickhouse
+    container_name: clickhouse
+    restart: always
+    network_mode: host
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+      - clickhouse_logs:/var/log/clickhouse-server
+
+volumes:
+  clickhouse_data:
+  clickhouse_logs:
+  ntopng_redis:
