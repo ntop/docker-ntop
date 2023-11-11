@@ -11,7 +11,7 @@ RUN apt-get update \
 	&& apt-get -y -q install ./apt-ntop.deb \
 	&& rm ./apt-ntop.deb \
 	&& apt-get update \
-	&& apt-get -y -q install nprobe
+	&& apt-get -y -q install nprobe \
 	&& apt-get clean all \
 	&& rm -rf /var/lib/apt/lists/*
 
