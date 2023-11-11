@@ -1,0 +1,21 @@
+FROM debian:bullseye-slim
+
+RUN apt-get update \
+	&& apt-get -y -q install \
+		software-properties-common \
+		wget \
+		lsb-release \
+		gnupg \
+		libelf1 \
+	&& wget -q http://packages.ntop.org/RaspberryPI/apt-ntop.deb \
+	&& apt-get -y -q install ./apt-ntop.deb \
+	&& rm ./apt-ntop.deb \
+	&& apt-get update \
+	&& apt-get -y -q install nprobe
+	&& apt-get clean all \
+	&& rm -rf /var/lib/apt/lists/*
+
+RUN echo '#!/bin/bash\nnprobe "$@" $NTOP_CONFIG' > /run.sh && \
+    chmod +x /run.sh
+
+ENTRYPOINT ["/run.sh"]
