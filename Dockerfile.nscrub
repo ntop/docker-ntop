@@ -1,6 +1,8 @@
 FROM ubuntu:22.04
 MAINTAINER ntop.org
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update && \
     apt-get -y -q install wget lsb-release gnupg libelf1 && \
     wget -q http://apt-stable.ntop.org/22.04/all/apt-ntop-stable.deb && \
