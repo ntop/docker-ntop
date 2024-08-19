@@ -11,7 +11,21 @@ and [Using PF_RING with Docker](https://www.ntop.org/guides/pf_ring/containers/d
 
 ## License Note
 
-Commercial ntop tools require a license which is based on a system identifier which is computed on locally attached network interfaces and other hardware components. If you want to use within all the Docker containers the same license generated for the host OS, the containers must use [host networking](https://docs.docker.com/network/host/). For docker-compose, see the [Compose file reference](https://docs.docker.com/compose/compose-file/compose-file-v3/#network_mode).
+Commercial ntop tools require a license which is based on a system identifier which is computed on locally attached network interfaces and other hardware components. If you want to use within all the Docker containers the same license generated for the host OS, the containers must use [host networking](https://docs.docker.com/network/host/) and map the license file from the host. Example:
+
+```bash
+docker run -it --net=host -v /etc/nprobe.license:/etc/nprobe.license nprobe -i eth1
+```
+
+For docker-compose, see the [Compose file reference](https://docs.docker.com/compose/compose-file/compose-file-v3/#network_mode).
+
+### Cloud License
+
+When running a Cloud license, the application needs to connect to the Cloud and the cloud.conf configuration file is required. Please create it in the container or map the cloud.conf file from the host. Example:
+
+```bash
+docker run -it --net=host -v /etc/nprobe.license:/etc/nprobe.license -v /etc/ntop/cloud.conf:/etc/ntop/cloud.conf:ro nprobe -i eth1
+```
 
 # Docker Compose
 
