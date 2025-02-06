@@ -157,3 +157,6 @@ You can pass configuration options also via the `NTOP_CONFIG` environment variab
 ```bash
 docker run -it -e NTOP_CONFIG="-i eno1" --net=host ntopng
 ```
+
+## ARM
+Whenever the verion of the OS changes, please make sure the docker file for ARM64 is updated
