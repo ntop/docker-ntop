@@ -1,4 +1,3 @@
-version: '3'
 services:
   ntopng:
     image: ntop/ntopng:stable
