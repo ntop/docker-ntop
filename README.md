@@ -35,7 +35,6 @@ A sample configuration file for running ntopng and ClickHouse is also available 
 
 Example `compose.yml` file:
 ```
-version: "3.9"
 services:
   nprobe_collector:
     image: ntop/nprobe:stable
