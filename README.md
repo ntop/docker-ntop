@@ -45,7 +45,7 @@ services:
     command: ['nprobe', '--zmq', '"tcp://ntopng:5556"', '--interface', 'none', '-n', 'none', '--collector-port', '2055', '-T', '"@NTOPNG@"', '--collector-passthrough']
 
   ntopng:
-    image: ntop/ntopng:latest
+    image: ntop/ntopng:stable
     restart: always
     network_mode: "host"
     volumes:
