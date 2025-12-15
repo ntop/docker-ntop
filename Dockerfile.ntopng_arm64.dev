@@ -4,6 +4,7 @@ RUN apt-get update \
 	&& apt-get -y -q install \
 		software-properties-common \
 		wget \
+		whiptail \
 		lsb-release \
 		gnupg \
 		libelf1 \

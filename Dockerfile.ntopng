@@ -5,7 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 
 RUN apt-get update && \
-    apt-get -y -q install apt-utils wget lsb-release gnupg libelf1 tzdata && \
+    apt-get -y -q install apt-utils software-properties-common wget whiptail lsb-release gnupg libelf1 tzdata && \
     wget -q https://packages.ntop.org/apt-stable/24.04/all/apt-ntop-stable.deb && \
     dpkg -i apt-ntop-stable.deb && \
     apt-get clean all

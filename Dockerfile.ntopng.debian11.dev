@@ -4,7 +4,7 @@ MAINTAINER ntop.org
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
-    apt-get -y -q install wget lsb-release gnupg libelf1 && \
+    apt-get -y -q install wget whiptail lsb-release gnupg libelf1 && \
     wget -q https://packages.ntop.org/apt/bullseye/all/apt-ntop.deb && \
     apt install ./apt-ntop.deb && \
     apt-get clean all
