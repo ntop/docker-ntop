@@ -1,12 +1,12 @@
-FROM ubuntu:24.04
-MAINTAINER ntop.org
+FROM debian:trixie
+LABEL maintainer="ntop Packager <packager@ntop.org>"
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 
 RUN apt-get update && \
-    apt-get -y -q install apt-utils software-properties-common wget whiptail lsb-release gnupg libelf1 tzdata && \
-    wget -q https://packages.ntop.org/apt-stable/24.04/all/apt-ntop-stable.deb && \
+    apt-get -y -q install lsb-release wget gnupg apt-transport-https ca-certificates whiptail && \
+    wget -q https://packages.ntop.org/apt-stable/trixie/all/apt-ntop-stable.deb && \
     dpkg -i apt-ntop-stable.deb && \
     apt-get clean all
 
@@ -14,9 +14,10 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
     dpkg-reconfigure --frontend noninteractive tzdata
 
 RUN apt-get update && \
-    apt-get -y -q install apt-transport-https ca-certificates dirmngr && \
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 8919F6BD2B48D754 && \
-    echo "deb https://packages.clickhouse.com/deb stable main" | tee /etc/apt/sources.list.d/clickhouse.list && \
+    apt-get install -y apt-transport-https ca-certificates curl gnupg && \ 
+    curl -fsSL 'https://packages.clickhouse.com/rpm/lts/repodata/repomd.xml.key' | gpg --dearmor -o /usr/share/keyrings/clickhouse-keyring.gpg && \
+    ARCH=$(dpkg --print-architecture) && \
+    echo "deb [signed-by=/usr/share/keyrings/clickhouse-keyring.gpg arch=${ARCH}] https://packages.clickhouse.com/deb stable main" | tee /etc/apt/sources.list.d/clickhouse.list && \
     apt-get update && \
     apt-get -y -q install clickhouse-client
 

@@ -1,11 +1,12 @@
-FROM ubuntu:24.04
-MAINTAINER ntop.org
+FROM debian:trixie
+LABEL maintainer="ntop Packager <packager@ntop.org>"
 
 ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
 
 RUN apt-get update && \
-    apt-get -y -q install software-properties-common wget whiptail lsb-release gnupg libelf1 && \
-    wget -q https://packages.ntop.org/apt-stable/24.04/all/apt-ntop-stable.deb && \
+    apt-get -y -q install lsb-release wget gnupg apt-transport-https whiptail ca-certificates && \
+    wget -q https://packages.ntop.org/apt-stable/trixie/all/apt-ntop-stable.deb && \
     dpkg -i apt-ntop-stable.deb && \
     apt-get clean all
 
